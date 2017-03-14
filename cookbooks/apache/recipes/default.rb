@@ -5,8 +5,14 @@
 # Copyright:: 2017, The Authors, All Rights Reserved.
 #
 
+if node['platform_family'] == 'rhel'
+  package = 'httpd'
+elseif node['platform_family'] == 'debian'
+  package = 'apache2'
+end
+
 package 'apache2' do
-  package_name 'httpd'
+  package_name package
   action :install
 end
 
@@ -15,3 +21,4 @@ service 'apache2' do
   action [:enable, :start]
 end
 
+#include_recipe 'apache::websites'
